@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menukaart – Eethuis IEF</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-toggle">
+
+<header>
+  <div class="header-inner">
+    <a class="logo" href="index.html">Eethuis <span>IEF</span></a>
+
+    <form class="search-form" action="menu.html" method="get">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" name="zoek" placeholder="Zoek gerecht of drankje…">
+      <button type="submit">Zoek</button>
+    </form>
+
+    <a class="btn-login" href="#login-modal">🔐 Inloggen</a>
+
+    <label class="hamburger-label" for="nav-toggle">
+      <span></span><span></span><span></span>
+    </label>
+  </div>
+</header>
+
+<nav>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="menu.html" class="active">Menukaart</a></li>
+    <li><a href="order.html">Bestellen</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- INLOG MODAL -->
+<div class="modal-overlay" id="login-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Inloggen</h2>
+      <a class="modal-close" href="#">✕</a>
+    </div>
+    <form action="#" method="post">
+      <div class="form-group">
+        <label for="email">E-mailadres</label>
+        <input type="email" id="email" name="email" placeholder="jouw@email.nl" required>
+      </div>
+      <div class="form-group">
+        <label for="wachtwoord">Wachtwoord</label>
+        <input type="password" id="wachtwoord" name="wachtwoord" placeholder="••••••••" required>
+      </div>
+      <button type="submit" class="btn-submit">Inloggen</button>
+      <p style="text-align:center;margin-top:1rem;font-size:0.85rem;color:var(--muted);">
+        Geen account? <a href="#" style="color:var(--blue);font-weight:700;">Registreer hier</a>
+      </p>
+    </form>
+  </div>
+</div>
+
+<!-- PAGINA INHOUD -->
+<div class="section">
+  <h2 class="section-title">Onze <span>Menukaart</span></h2>
+  <p class="section-subtitle">Verse visgerechten en verfrissende dranken — alles op één pagina</p>
+
+  <!-- VISGERECHTEN -->
+  <h3 class="menu-section-heading">🐟 Visgerechten</h3>
+  <div class="menu-grid">
+
+    <div class="menu-card">
+      <div class="card-thumb">🐟</div>
+      <div class="card-body">
+        <span class="tag">Visgerecht</span>
+        <h3>Gebakken Scholfilet</h3>
+        <p>Klassiek gebakken met citroenboter en peterselie</p>
+      </div>
+      <div class="card-footer">
+        <span class="price">€ 16,50</span>
+        <a href="order.html" class="btn-add">Bestellen →</a>
+      </div>
+    </div>
+
+    <div class="menu-card">
+      <div class="card-thumb">🦐</div>
+      <div class="card-body">
+        <span class="tag">Visgerecht</span>
+        <h3>Garnalencocktail</h3>
+        <p>Verse Noordzeegarnalen met roze dressing</p>
+      </div>
+      <div class="card-footer">
+        <span class="price">€ 14,00</span>
+        <a href="order.html" class="btn-add">Bestellen →</a>
+      </div>
+    </div>
+
+    <div class="menu-card">
+      <div class="card-thumb">🐠</div>
+      <div class="card-body">
+        <span class="tag">Visgerecht</span>
+        <h3>Gerookte Zalm</h3>
+        <p>Huisgerookt, met kappertjes en rode ui</p>
+      </div>
+      <div class="card-footer">
+        <span class="price">€ 18,50</span>
+        <a href="order.html" class="btn-add">Bestellen →</a>
+      </div>
+    </div>
+
+    <div class="menu-card">
+      <div class="card-thumb">🦪</div>
+      <div class="card-body">
+        <span class="tag">Visgerecht</span>
+        <h3>Mosselen Marinière</h3>
+        <p>Zeeuwse mosselen in witte wijn en room</p>
+      </div>
+      <div class="card-footer">
+        <span class="price">€ 19,00</span>
+        <a href="order.html" class="btn-add">Bestellen →</a>
+      </div>
+    </div>
+
+    <div class="menu-card">
+      <div class="card-thumb">🍣</div>
+      <div class="card-body">
+        <span class="tag">Visgerecht</span>
+        <h3>Tonijntartaar</h3>
+        <p>Rauwe tonijn, avocado en soja-sesamdressing</p>
+      </div>
+      <div class="card-footer">
+        <span class="price">€ 21,00</span>
+        <a href="order.html" class="btn-add">Bestellen →</a>
+      </div>
+    </div>
+
+    <div class="menu-card">
+      <div class="card-thumb">🐡</div>
+      <div class="card-body">
+        <span class="tag">Visgerecht</span>
+        <h3>Gegrilde Zeebaars</h3>
+        <p>Mediterraan gekruid met olijfolie en citroen</p>
+      </div>
+      <div class="card-footer">
+        <span class="price">€ 23,50</span>
+        <a href="order.html" class="btn-add">Bestellen →</a>
+      </div>
+    </div>
+
+    <div class="menu-card">
+      <div class="card-thumb">🍲</div>
+      <div class="card-body">
+        <span class="tag">Visgerecht</span>
+        <h3>Vissoep IEF</h3>
+        <p>Rijke bouillabaisse met vers huisbrood</p>
+      </div>
+      <div class="card-footer">
+        <span class="price">€ 12,00</span>
+        <a href="order.html" class="btn-add">Bestellen →</a>
+      </div>
+    </div>
+
+    <div class="menu-card">
+      <div class="card-thumb">🦑</div>
+      <div class="card-body">
+        <span class="tag">Visgerecht</span>
+        <h3>Inktvis Gegrild</h3>
+        <p>Spaanse stijl met knoflook en peterselie</p>
+      </div>
+      <div class="card-footer">
+        <span class="price">€ 17,50</span>
+        <a href="order.html" class="btn-add">Bestellen →</a>
+      </div>
+    </div>
+
+    <div class="menu-card">
+      <div class="card-thumb">🍤</div>
+      <div class="card-body">
+        <span class="tag">Visgerecht</span>
+        <h3>Kabeljauw in Tempura</h3>
+        <p>Knapperig gefrituurde kabeljauw met tartaarsaus</p>
+      </div>
+      <div class="card-footer">
+        <span class="price">€ 15,50</span>
+        <a href="order.html" class="btn-add">Bestellen →</a>
+      </div>
+    </div>
+
+    <div class="menu-card">
+      <div class="card-thumb">🦞</div>
+      <div class="card-body">
+        <span class="tag">Visgerecht</span>
+        <h3>Kreeft Thermidor</h3>
+        <p>Halve kreeft met romige kaassaus, au gratin</p>
+      </div>
+      <div class="card-footer">
+        <span class="price">€ 38,00</span>
+        <a href="order.html" class="btn-add">Bestellen →</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- DRANKEN -->
+  <h3 class="menu-section-heading">🥤 Dranken</h3>
+  <div class="menu-grid">
+
+    <div class="menu-card">
+      <div class="card-thumb drink-thumb">🍷</div>
+      <div class="card-body">
+        <span class="tag">Drank</span>
+        <h3>Huiswijn Wit</h3>
+        <p>Frisse Sauvignon Blanc, per glas</p>
+      </div>
+      <div class="card-footer">
+        <span class="price">€ 5,50</span>
+        <a href="order.html" class="btn-add">Bestellen →</a>
+      </div>
+    </div>
+
+    <div class="menu-card">
+      <div class="card-thumb drink-thumb">🍺</div>
+      <div class="card-body">
+        <span class="tag">Drank</span>
+        <h3>Heineken Bier</h3>
+        <p>Flesje 33cl, lekker gekoeld</p>
+      </div>
+      <div class="card-footer">
+        <span class="price">€ 3,50</span>
+        <a href="order.html" class="btn-add">Bestellen →</a>
+      </div>
+    </div>
+
+    <div class="menu-card">
+      <div class="card-thumb drink-thumb">🍹</div>
+      <div class="card-body">
+        <span class="tag">Drank</span>
+        <h3>Zeebries Cocktail</h3>
+        <p>Gin-tonic met citroen en zeekruid</p>
+      </div>
+      <div class="card-footer">
+        <span class="price">€ 8,50</span>
+        <a href="order.html" class="btn-add">Bestellen →</a>
+      </div>
+    </div>
+
+    <div class="menu-card">
+      <div class="card-thumb drink-thumb">💧</div>
+      <div class="card-body">
+        <span class="tag">Drank</span>
+        <h3>Spa Blauw / Rood</h3>
+        <p>Still of bruisend water, 50cl</p>
+      </div>
+      <div class="card-footer">
+        <span class="price">€ 2,50</span>
+        <a href="order.html" class="btn-add">Bestellen →</a>
+      </div>
+    </div>
+
+    <div class="menu-card">
+      <div class="card-thumb drink-thumb">🍊</div>
+      <div class="card-body">
+        <span class="tag">Drank</span>
+        <h3>Vers Geperst Sinaasappelsap</h3>
+        <p>100% vers, groot glas</p>
+      </div>
+      <div class="card-footer">
+        <span class="price">€ 4,00</span>
+        <a href="order.html" class="btn-add">Bestellen →</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">Eethuis <span>IEF</span></div>
+      <p>Het fijnste visrestaurant van Zeeland. Dagverse vis, bereid met passie en traditie.</p>
+    </div>
+    <div>
+      <h4>Locatie</h4>
+      <ul>
+        <li>Havenstraat 42</li>
+        <li>1234 AB Zeeland</li>
+        <li>Nederland</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Contact &amp; Tijden</h4>
+      <ul>
+        <li>📞 +31 (0)113 456 789</li>
+        <li>✉️ info@eethuisief.nl</li>
+        <li>Ma–Vr: 11:00–22:00</li>
+        <li>Za–Zo: 10:00–23:00</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2025 Eethuis IEF · Havenstraat 42, 1234 AB Zeeland · KvK 12345678</div>
+</footer>
+
+</body>
+</html>

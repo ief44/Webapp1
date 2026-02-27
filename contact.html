@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact – Eethuis IEF</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-toggle">
+
+<header>
+  <div class="header-inner">
+    <a class="logo" href="index.html">Eethuis <span>IEF</span></a>
+
+    <form class="search-form" action="menu.html" method="get">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" name="zoek" placeholder="Zoek gerecht of drankje…">
+      <button type="submit">Zoek</button>
+    </form>
+
+    <a class="btn-login" href="#login-modal">🔐 Inloggen</a>
+
+    <label class="hamburger-label" for="nav-toggle">
+      <span></span><span></span><span></span>
+    </label>
+  </div>
+</header>
+
+<nav>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="menu.html">Menukaart</a></li>
+    <li><a href="order.html">Bestellen</a></li>
+    <li><a href="contact.html" class="active">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- INLOG MODAL -->
+<div class="modal-overlay" id="login-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Inloggen</h2>
+      <a class="modal-close" href="#">✕</a>
+    </div>
+    <form action="#" method="post">
+      <div class="form-group">
+        <label for="email">E-mailadres</label>
+        <input type="email" id="email" name="email" placeholder="jouw@email.nl" required>
+      </div>
+      <div class="form-group">
+        <label for="wachtwoord">Wachtwoord</label>
+        <input type="password" id="wachtwoord" name="wachtwoord" placeholder="••••••••" required>
+      </div>
+      <button type="submit" class="btn-submit">Inloggen</button>
+      <p style="text-align:center;margin-top:1rem;font-size:0.85rem;color:var(--muted);">
+        Geen account? <a href="#" style="color:var(--blue);font-weight:700;">Registreer hier</a>
+      </p>
+    </form>
+  </div>
+</div>
+
+<!-- MINI HERO -->
+<div style="background:linear-gradient(135deg,var(--navy-dark),var(--blue));padding:3rem 1.5rem;text-align:center;">
+  <h1 style="font-family:'Playfair Display',serif;color:white;font-size:clamp(2rem,5vw,3.2rem);">
+    Contact &amp; <span style="color:var(--gold-light);">Reserveren</span>
+  </h1>
+  <p style="color:rgba(255,255,255,0.75);margin-top:0.5rem;">Wij horen graag van u. Reserveer een tafel of stel uw vraag.</p>
+</div>
+
+<!-- CONTACT INHOUD -->
+<div class="section">
+  <div class="contact-grid">
+
+    <!-- Contactgegevens -->
+    <div class="contact-info">
+      <h3>Vind ons</h3>
+
+      <div class="contact-item">
+        <div class="c-icon">📍</div>
+        <div>
+          <h4>Adres</h4>
+          <p>Havenstraat 42<br>1234 AB Zeeland, Nederland</p>
+        </div>
+      </div>
+
+      <div class="contact-item">
+        <div class="c-icon">📞</div>
+        <div>
+          <h4>Telefoon</h4>
+          <p>+31 (0)113 456 789</p>
+        </div>
+      </div>
+
+      <div class="contact-item">
+        <div class="c-icon">✉️</div>
+        <div>
+          <h4>E-mail</h4>
+          <p>info@eethuisief.nl</p>
+        </div>
+      </div>
+
+      <div class="contact-item">
+        <div class="c-icon">🕐</div>
+        <div>
+          <h4>Openingstijden</h4>
+          <p>Maandag – Vrijdag: 11:00 – 22:00<br>Zaterdag – Zondag: 10:00 – 23:00</p>
+        </div>
+      </div>
+
+      <!-- Kaart placeholder -->
+      <div style="margin-top:1.5rem;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);aspect-ratio:4/3;background:linear-gradient(135deg,var(--light-blue),#b8d8ff);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0.5rem;color:var(--muted);">
+        <div style="font-size:3rem;">🗺️</div>
+        <p style="font-size:0.9rem;">Havenstraat 42, Zeeland</p>
+      </div>
+    </div>
+
+    <!-- Contactformulier -->
+    <div>
+      <h3 style="font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--navy);margin-bottom:1.5rem;">Stuur ons een bericht</h3>
+      <form action="mailto:info@eethuisief.nl" method="post" enctype="text/plain">
+        <div class="form-group">
+          <label for="naam">Uw naam</label>
+          <input type="text" id="naam" name="naam" placeholder="Jan de Vries" required>
+        </div>
+        <div class="form-group">
+          <label for="contact-email">E-mailadres</label>
+          <input type="email" id="contact-email" name="email" placeholder="jan@email.nl" required>
+        </div>
+        <div class="form-group">
+          <label for="telefoon">Telefoonnummer</label>
+          <input type="tel" id="telefoon" name="telefoon" placeholder="+31 6 12 34 56 78">
+        </div>
+        <div class="form-group">
+          <label for="onderwerp">Onderwerp</label>
+          <select id="onderwerp" name="onderwerp">
+            <option value="">Kies een onderwerp…</option>
+            <option>Tafel reserveren</option>
+            <option>Vraag over het menu</option>
+            <option>Allergieën / dieetwensen</option>
+            <option>Feedback</option>
+            <option>Anders</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="bericht">Uw bericht</label>
+          <textarea id="bericht" name="bericht" placeholder="Typ uw bericht hier…" required></textarea>
+        </div>
+        <button type="submit" class="btn-submit">Verzenden →</button>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">Eethuis <span>IEF</span></div>
+      <p>Het fijnste visrestaurant van Zeeland. Dagverse vis, bereid met passie en traditie.</p>
+    </div>
+    <div>
+      <h4>Locatie</h4>
+      <ul>
+        <li>Havenstraat 42</li>
+        <li>1234 AB Zeeland</li>
+        <li>Nederland</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Contact &amp; Tijden</h4>
+      <ul>
+        <li>📞 +31 (0)113 456 789</li>
+        <li>✉️ info@eethuisief.nl</li>
+        <li>Ma–Vr: 11:00–22:00</li>
+        <li>Za–Zo: 10:00–23:00</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2025 Eethuis IEF · Havenstraat 42, 1234 AB Zeeland · KvK 12345678</div>
+</footer>
+
+</body>
+</html>

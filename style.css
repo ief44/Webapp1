@@ -1,0 +1,240 @@
+/* Eethuis IEF – Stylesheet (geen JavaScript) */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Nunito:wght@400;600;700&display=swap');
+
+/* === VARIABELEN === */
+:root {
+  --navy:       #0b2d6f;
+  --navy-dark:  #071d4a;
+  --blue:       #1a56bb;
+  --sky:        #5ba4f5;
+  --light-blue: #daeaff;
+  --pale:       #f0f6ff;
+  --white:      #ffffff;
+  --gold:       #c8a45e;
+  --gold-light: #e8c97e;
+  --text:       #182847;
+  --muted:      #5e7499;
+  --border:     rgba(91,164,245,0.2);
+  --radius:     12px;
+}
+
+/* === RESET === */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Nunito', sans-serif; background: var(--pale); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; line-height: 1.6; }
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; }
+h1, h2, h3, h4 { font-family: 'Playfair Display', serif; line-height: 1.2; }
+
+/* === LAYOUT === */
+.section { padding: 3.5rem 1.5rem; max-width: 1200px; margin: 0 auto; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); color: var(--navy); margin-bottom: 0.4rem; }
+.section-title span { color: var(--gold); }
+.section-subtitle { color: var(--muted); margin-bottom: 2rem; }
+
+/* =====================================================
+   HEADER
+   Hamburger werkt via een verborgen <input type="checkbox">
+   De checkbox staat BUITEN <header>, zodat de CSS-
+   sibling-selector (~) de nav kan bereiken.
+   ===================================================== */
+
+/* Verberg de checkbox zelf */
+#nav-toggle { display: none; }
+
+header {
+  background: var(--navy-dark);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+}
+
+.header-inner { display: flex; align-items: center; gap: 1rem; padding: 0 1.5rem; height: 65px; }
+
+.logo { font-family: 'Playfair Display', serif; font-size: 1.7rem; font-weight: 900; color: var(--white); letter-spacing: 2px; white-space: nowrap; flex-shrink: 0; }
+.logo span { color: var(--gold); }
+
+/* Zoekformulier — stuurt naar menukaart.html?zoek=... */
+.search-form { display: flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.1); border: 1.5px solid rgba(255,255,255,0.18); border-radius: 50px; padding: 0.35rem 0.5rem 0.35rem 1rem; flex: 1; max-width: 360px; margin-left: auto; transition: border-color 0.2s; }
+.search-form:focus-within { border-color: var(--sky); background: rgba(255,255,255,0.15); }
+.search-form input { background: transparent; border: none; outline: none; color: var(--white); font-family: 'Nunito', sans-serif; font-size: 0.9rem; width: 100%; }
+.search-form input::placeholder { color: rgba(255,255,255,0.4); }
+.search-form button { background: rgba(255,255,255,0.18); border: none; border-radius: 50px; padding: 0.28rem 0.75rem; cursor: pointer; color: var(--white); font-size: 0.78rem; font-weight: 700; white-space: nowrap; transition: background 0.2s; }
+.search-form button:hover { background: rgba(255,255,255,0.3); }
+
+/* Login-knop — opent modal via :target anchor */
+.btn-login { background: var(--gold); color: var(--navy-dark); padding: 0.5rem 1.2rem; border-radius: 50px; font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 0.85rem; white-space: nowrap; flex-shrink: 0; display: inline-block; transition: background 0.2s; }
+.btn-login:hover { background: var(--gold-light); }
+
+/* Hamburger <label> — alleen zichtbaar op mobiel */
+.hamburger-label { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; flex-shrink: 0; }
+.hamburger-label span { display: block; width: 24px; height: 2px; background: var(--white); border-radius: 2px; transition: transform 0.3s, opacity 0.3s; }
+
+/* Hamburger-animatie wanneer checkbox aan is */
+#nav-toggle:checked + header .hamburger-label span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+#nav-toggle:checked + header .hamburger-label span:nth-child(2) { opacity: 0; }
+#nav-toggle:checked + header .hamburger-label span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Navigatiebalk */
+nav { background: var(--blue); }
+.nav-links { display: flex; justify-content: center; }
+.nav-links li a { color: rgba(255,255,255,0.85); padding: 0.7rem 1.4rem; font-size: 0.88rem; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; transition: background 0.2s, color 0.2s; white-space: nowrap; display: block; }
+.nav-links li a:hover, .nav-links li a.active { background: var(--navy-dark); color: var(--gold); }
+
+/* =====================================================
+   INLOG MODAL — CSS :target truc
+   Klik op <a href="#login-modal"> → modal verschijnt
+   Klik op × (<a href="#">) → modal verdwijnt
+   ===================================================== */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(7,29,74,0.6);
+  backdrop-filter: blur(4px);
+  z-index: 2000;
+  justify-content: flex-end;
+  align-items: flex-start;
+  padding: 73px 1.5rem 0;
+}
+.modal-overlay:target { display: flex; }
+
+.modal { background: var(--white); border-radius: var(--radius); padding: 2rem; width: 100%; max-width: 380px; box-shadow: 0 16px 50px rgba(11,45,111,0.2); }
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+.modal-header h2 { font-size: 1.4rem; color: var(--navy); }
+.modal-close { background: var(--pale); border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-size: 1rem; color: var(--navy); font-weight: 700; flex-shrink: 0; transition: background 0.2s; }
+.modal-close:hover { background: var(--light-blue); }
+
+/* === HERO === */
+.hero { background: linear-gradient(140deg, var(--navy-dark), #133a8e, var(--blue)); padding: clamp(4rem, 10vw, 7rem) 1.5rem; text-align: center; }
+.hero h1 { font-size: clamp(2.4rem, 7vw, 5rem); color: var(--white); margin-bottom: 1rem; }
+.hero h1 em { font-style: italic; color: var(--gold-light); }
+.hero p { color: rgba(255,255,255,0.78); font-size: clamp(1rem, 2.5vw, 1.2rem); max-width: 520px; margin: 0 auto 2.5rem; }
+.btn-primary { display: inline-block; background: var(--gold); color: var(--navy-dark); padding: 0.9rem 2.5rem; border-radius: 50px; font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 1rem; transition: background 0.2s, transform 0.2s; }
+.btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+/* === FEATURE KAARTEN === */
+.features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
+.feature-card { background: var(--white); border-radius: var(--radius); padding: 2rem 1.5rem; text-align: center; border: 1px solid var(--border); box-shadow: 0 2px 12px rgba(11,45,111,0.08); transition: transform 0.2s; }
+.feature-card:hover { transform: translateY(-4px); }
+.feature-icon { font-size: 2.8rem; margin-bottom: 1rem; }
+.feature-card h3 { font-size: 1.1rem; color: var(--navy); margin-bottom: 0.5rem; }
+.feature-card p { color: var(--muted); font-size: 0.9rem; }
+
+/* Statistieken */
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.5rem; margin-top: 3rem; text-align: center; }
+.stat-box { border-radius: var(--radius); padding: 2rem; color: var(--white); }
+.stat-box.dark { background: var(--navy); }
+.stat-box.blue { background: var(--blue); }
+.stat-number { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 900; color: var(--gold); }
+.stat-box.blue .stat-number { color: var(--gold-light); }
+.stat-label { margin-top: 0.5rem; font-size: 0.95rem; opacity: 0.85; }
+
+/* === MENU GRID === */
+.menu-section-heading { font-family: 'Playfair Display', serif; color: var(--navy); font-size: 1.4rem; margin: 2.5rem 0 1.2rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--light-blue); }
+.menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 1.5rem; margin-bottom: 1rem; }
+
+.menu-card { background: var(--white); border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); box-shadow: 0 2px 12px rgba(11,45,111,0.08); transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; }
+.menu-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(11,45,111,0.14); }
+
+.card-thumb { height: 150px; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; background: linear-gradient(135deg, var(--light-blue), #b8d8ff); }
+.card-thumb.drink-thumb { background: linear-gradient(135deg, #d0f0ff, #a8d8f0); }
+
+.card-body { padding: 1rem 1.2rem 0.8rem; flex: 1; }
+.tag { display: inline-block; background: var(--light-blue); color: var(--blue); font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; padding: 0.15rem 0.6rem; border-radius: 20px; margin-bottom: 0.5rem; }
+.card-body h3 { font-size: 1.1rem; color: var(--navy); margin-bottom: 0.3rem; }
+.card-body p { color: var(--muted); font-size: 0.86rem; }
+
+.card-footer { display: flex; align-items: center; justify-content: space-between; padding: 0.8rem 1.2rem; border-top: 1px solid var(--light-blue); background: var(--pale); }
+.price { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--navy); }
+.btn-add { background: var(--blue); color: var(--white); padding: 0.4rem 1rem; border-radius: 50px; font-family: 'Nunito', sans-serif; font-size: 0.84rem; font-weight: 700; transition: background 0.2s; display: inline-block; }
+.btn-add:hover { background: var(--navy); }
+
+/* === BESTELLEN PAGINA === */
+.order-layout { display: grid; grid-template-columns: 1fr 330px; gap: 2rem; align-items: start; max-width: 1200px; margin: 0 auto; padding: 3rem 1.5rem; }
+
+/* Menuoverzicht tabel */
+.order-table-wrap { background: var(--white); border-radius: var(--radius); border: 1px solid var(--border); box-shadow: 0 2px 12px rgba(11,45,111,0.08); overflow: hidden; margin-bottom: 1.5rem; }
+.order-table-wrap h3 { font-size: 1.15rem; color: var(--navy); padding: 1.2rem 1.5rem 0.8rem; border-bottom: 2px solid var(--light-blue); }
+.order-table { width: 100%; border-collapse: collapse; }
+.order-table th { text-align: left; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted); padding: 0.6rem 1rem; background: var(--pale); }
+.order-table td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--pale); font-size: 0.92rem; }
+.order-table td:last-child { text-align: right; font-weight: 700; color: var(--navy); }
+.order-table tr:last-child td { border-bottom: none; }
+.order-table tr:hover td { background: var(--pale); }
+
+/* Bestelformulier */
+.order-form-box { background: var(--white); border-radius: var(--radius); padding: 1.5rem; box-shadow: 0 4px 20px rgba(11,45,111,0.1); border: 1px solid var(--border); position: sticky; top: 120px; }
+.order-form-box h3 { font-size: 1.2rem; color: var(--navy); margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 2px solid var(--light-blue); }
+
+.order-row { display: flex; align-items: center; justify-content: space-between; padding: 0.55rem 0; border-bottom: 1px solid var(--pale); gap: 0.5rem; font-size: 0.88rem; }
+.order-row:last-of-type { border-bottom: none; }
+.order-row label { flex: 1; color: var(--text); }
+.order-row .row-price { color: var(--muted); font-size: 0.82rem; width: 50px; text-align: right; }
+.order-row input[type="number"] { width: 55px; padding: 0.3rem 0.4rem; border: 1.5px solid var(--light-blue); border-radius: 8px; font-family: 'Nunito', sans-serif; font-size: 0.88rem; text-align: center; outline: none; }
+.order-row input[type="number"]:focus { border-color: var(--blue); }
+
+.order-divider { border: none; border-top: 2px solid var(--navy); margin: 1rem 0 0.5rem; }
+.order-note { font-size: 0.82rem; color: var(--muted); margin-bottom: 1rem; }
+
+/* === CONTACT === */
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+.contact-info h3 { font-size: 1.4rem; color: var(--navy); margin-bottom: 1.5rem; }
+.contact-item { display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 1.3rem; }
+.c-icon { width: 44px; height: 44px; background: var(--light-blue); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; }
+.contact-item h4 { font-family: 'Nunito', sans-serif; font-weight: 700; color: var(--navy); margin-bottom: 0.2rem; }
+.contact-item p { color: var(--muted); font-size: 0.9rem; }
+
+/* === FORMULIEREN === */
+form { display: flex; flex-direction: column; gap: 1rem; }
+.form-group { display: flex; flex-direction: column; gap: 0.3rem; }
+.form-group label { font-size: 0.85rem; font-weight: 700; color: var(--navy); }
+.form-group input,
+.form-group textarea,
+.form-group select { padding: 0.65rem 1rem; border: 1.5px solid var(--light-blue); border-radius: 8px; font-family: 'Nunito', sans-serif; font-size: 0.92rem; color: var(--text); background: var(--white); outline: none; transition: border-color 0.2s; }
+.form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--blue); }
+.form-group textarea { resize: vertical; min-height: 120px; }
+.btn-submit { background: var(--blue); color: var(--white); border: none; padding: 0.8rem 1.5rem; border-radius: 8px; font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: background 0.2s; }
+.btn-submit:hover { background: var(--navy); }
+
+/* === FOOTER === */
+footer { background: var(--navy-dark); color: rgba(255,255,255,0.75); padding: 3rem 1.5rem 1.5rem; margin-top: auto; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 2.5rem; max-width: 1200px; margin: 0 auto 2rem; }
+.footer-logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--white); margin-bottom: 0.75rem; }
+.footer-logo span { color: var(--gold); }
+footer p, footer li { font-size: 0.9rem; line-height: 1.7; }
+footer h4 { color: var(--gold); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.75rem; }
+footer ul li { margin-bottom: 0.4rem; }
+footer a { color: rgba(255,255,255,0.65); transition: color 0.2s; }
+footer a:hover { color: var(--gold); }
+.footer-bottom { max-width: 1200px; margin: 0 auto; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; font-size: 0.8rem; color: rgba(255,255,255,0.35); }
+
+/* === RESPONSIVE === */
+@media (max-width: 900px) {
+  .order-layout { grid-template-columns: 1fr; }
+  .order-form-box { position: static; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+}
+
+@media (max-width: 640px) {
+  .header-inner { flex-wrap: wrap; height: auto; padding: 0.6rem 1rem; }
+  .search-form { order: 3; max-width: 100%; flex: 0 0 100%; margin-left: 0; }
+  .hamburger-label { display: flex; }
+
+  .nav-links { flex-direction: column; max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+  #nav-toggle:checked + header + nav .nav-links { max-height: 300px; }
+  .nav-links li a { padding: 0.8rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.08); }
+
+  .footer-grid { grid-template-columns: 1fr; }
+  .menu-grid { grid-template-columns: 1fr; }
+  .features-grid { grid-template-columns: 1fr 1fr; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 400px) {
+    .features-grid { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: 1fr; }
+}
