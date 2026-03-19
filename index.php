@@ -1,35 +1,135 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eethuis IEF - Home</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="shortcut icon" href="Ief eethuis.png" type="image/x-icon">
+</head>
+<body>
+
+<!-- Checkbox voor hamburger menu (BUITEN header zodat CSS sibling ~ werkt) -->
+<input type="checkbox" id="nav-toggle">
+
+<header>
+  <div class="header-inner">
+    <a class="logo" href="index.html">Eethuis <span>IEF</span></a>
+
+    <form class="search-form" action="menukaart.html" method="get">
+      <input type="text" name="zoek" placeholder="Zoek gerecht of drankje…">
+    </form>
+
+    <a class="btn-login" href="#login-modal">🔐 Inloggen</a>
+
+    <label class="hamburger-label" for="nav-toggle">
+      <span></span><span></span><span></span>
+    </label>
+  </div>
+</header>
+
+<nav>
+  <ul class="nav-links">
+    <li><a href="index.php" class="active">Home</a></li>
+    <li><a href="menu.php">Menukaart</a></li>
+    <li><a href="order.php">Bestellen</a></li>
+    <li><a href="contact.php">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- INLOG MODAL (CSS :target) -->
+<div class="modal-overlay" id="login-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Inloggen</h2>
+      <a class="modal-close" href="#">✕</a>
+    </div>
+    <form action="#" method="post">
+      <div class="form-group">
+        <label for="email">E-mailadres</label>
+        <input type="email" id="email" name="email" placeholder="jouw@email.nl" required>
+      </div>
+      <div class="form-group">
+        <label for="wachtwoord">Wachtwoord</label>
+        <input type="password" id="wachtwoord" name="wachtwoord" placeholder="••••••••" required><max-length="10">
+      </div>
+      <button type="submit" class="btn-submit">Inloggen</button>
+      <p style="text-align:center;margin-top:1rem;font-size:0.85rem;color:var(--muted);">
+        Geen account? <a href="#" style="color:var(--blue);font-weight:700;">Registreer hier</a>
+      </p>
+    </form>
+  </div>
+</div>
 <?php
-$host = "db";
-$db = "mydatabase";
-$user = "user";
-$password = "password";
-$charset = "utf8mb4";
 
+?>
+<!-- HERO -->
+<section class="hero">
+  <h1>Welkom bij<br>Eethuis <em>IEF</em></h1>
+  <p>Verse vis, dagelijks binnengehaald door lokale vissers. Bereid met vakmanschap en passie voor de Zeeuwse tafel.</p>
+  <a href="menu.php" class="btn-primary">Bekijk de menukaart →</a>
+</section>
 
-$opties = [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES => false,
-];
+<!-- FEATURES -->
+<div class="section">
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">🐟</div>
+      <h3>Dagverse vis</h3>
+      <p>Elke dag vers aangevoerd van lokale Zeeuwse vissers.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">👨‍🍳</div>
+      <h3>Vakmanschap</h3>
+      <p>Onze koks bereiden elk gerecht met toewijding en liefde.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🌊</div>
+      <h3>Authentiek</h3>
+      <p>Klassieke visrecepten met een eigentijdse Zeeuwse touch.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🍽️</div>
+      <h3>Sfeervolle omgeving</h3>
+      <p>Gezellig tafelen in ons maritiem ingerichte restaurant.</p>
+    </div>
+  </div>
 
-$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+  <div class="stats-grid">
+    <div class="stat-box dark"><div class="stat-number">10</div><div class="stat-label">Visgerechten</div></div>
+    <div class="stat-box blue"><div class="stat-number">5</div><div class="stat-label">Dranken</div></div>
+    <div class="stat-box dark"><div class="stat-number">15+</div><div class="stat-label">Jaar ervaring</div></div>
+    <div class="stat-box blue"><div class="stat-number">★★★★★</div><div class="stat-label">Beoordeling</div></div>
+  </div>
+</div>
 
-try{
-    $pdo = new PDO($dsn, $user, $password, $opties);
-    echo "Connected to the database successfully!";
-} catch (PDOException $e) {
-    echo "Connection failed: " . $e->getMessage();
-    die("Unable to connect to the database.");
-}
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">Eethuis <span>IEF</span></div>
+      <p>Het fijnste visrestaurant van Zeeland. Dagverse vis, bereid met passie en traditie.</p>
+    </div>
+    <div>
+      <h4>Locatie</h4>
+      <ul>
+        <li>Havenstraat 42</li>
+        <li>1234 AB Zeeland</li>
+        <li>Nederland</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Contact &amp; Tijden</h4>
+      <ul>
+        <li>📞 +31 (0)113 456 789</li>
+        <li>✉️ info@eethuisief.nl</li>
+        <li>Ma–Vr: 11:00–22:00</li>
+        <li>Za–Zo: 10:00–23:00</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2025 Eethuis IEF · Havenstraat 42, 1234 AB Zeeland · KvK 12345678</div>
+</footer>
 
-$sql = "SELECT * FROM studenten WHERE leeftijd > 16";
-
-$statement = $pdo->prepare($sql);
-
-$statement->execute();
-
-$studenten = $statement->fetchAll();
-
-echo "<pre>";
-print_r($studenten);
-echo "</pre>";
+</body>
+</html>

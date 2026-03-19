@@ -29,10 +29,10 @@
 
 <nav>
   <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="menu.html" class="active">Menukaart</a></li>
-    <li><a href="order.html">Bestellen</a></li>
-    <li><a href="contact.html">Contact</a></li>
+     <li><a href="index.php" class="active">Home</a></li>
+    <li><a href="menu.php">Menukaart</a></li>
+    <li><a href="order.php">Bestellen</a></li>
+    <li><a href="contact.php">Contact</a></li>
   </ul>
 </nav>
 
