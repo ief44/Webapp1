@@ -33,6 +33,7 @@
     <li><a href="menu.php">Menukaart</a></li>
     <li><a href="order.php">Bestellen</a></li>
     <li><a href="contact.php">Contact</a></li>
+    <li><a href="admin.php">Admin</a></li>
   </ul>
 </nav>
 

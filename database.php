@@ -34,7 +34,23 @@ echo "<pre>";
 print_r($gerechten);
 echo "</pre>";
 
+session_start();
 
+echo "<pre>";
+print_r($_SESSION);
+echo "</pre>";
+
+$_SESSION["naam"] = "Ief";
+$_SESSION["leeftijd"] = 17;
+$_SESSION["isIngelogd"] = true;
+
+echo "<pre>";
+print_r($_SESSION);
+echo "</pre>";
+
+echo "<pre>";
+print_r($_SESSION);
+echo "</pre>";
 
 
 
