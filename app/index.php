@@ -1,22 +1,11 @@
 <?php include_once("database.php");
 
-// Zoeken
 $zoek = $_GET['zoek'] ?? '';
-$sql = "SELECT * FROM Gerechten";
-$params = [];
+$params = $zoek ? ["%$zoek%", "%$zoek%", "%$zoek%"] : [];
+$sql = "SELECT * FROM Gerechten" . ($zoek ? " WHERE naam LIKE ? OR beschrijving LIKE ? OR type LIKE ?" : "") . " LIMIT 4";
 
-if ($zoek) {
-    $sql .= " WHERE naam LIKE ? OR beschrijving LIKE ? OR type LIKE ?";
-    $params = ["%$zoek%", "%$zoek%", "%$zoek%"];
-}
-
-$sql .= " LIMIT 4";
 $stmt = $pdo->prepare($sql);
-if ($params) {
-    $stmt->execute($params);
-} else {
-    $stmt->execute();
-}
+$stmt->execute($params);
 $gerechten = $stmt->fetchAll();
 ?>
 <!DOCTYPE html>
@@ -55,7 +44,6 @@ $gerechten = $stmt->fetchAll();
     <li><a href="menu.php">Menukaart</a></li>
     <li><a href="order.php">Bestellen</a></li>
     <li><a href="contact.php">Contact</a></li>
-    <li><a href="admin.php">Admin</a></li>
   </ul>
 </nav>
 <!-- HERO -->

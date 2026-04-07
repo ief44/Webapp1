@@ -1,12 +1,14 @@
 <?php
+// Laad de databaseverbinding en initialiseert sessiegegevens
 include_once("database.php");
 
+// Zorg dat alleen ingelogde gebruikers toegang hebben tot admin.php
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit;
 }
 
-// Logout
+// Verwerk logout-aanvraag
 if (isset($_GET['logout'])) {
     session_destroy();
     header('Location: login.php');
@@ -16,43 +18,41 @@ if (isset($_GET['logout'])) {
 $bericht = '';
 $error = '';
 
-// Gerecht toevoegen
+// Verwerk formulier voor het toevoegen van een nieuw gerecht
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty(trim($_POST['naam'] ?? ''))) {
-    $naam = trim($_POST['naam']);
-    $beschrijving = $_POST['beschrijving'] ?? '';
-    $prijs = trim($_POST['prijs'] ?? '');
-    $prijs = $prijs === '' ? null : (float) $prijs;
-    $categorie = $_POST['categorie'] ?? '';
-
     try {
-        $sql = "INSERT INTO Gerechten (naam, beschrijving, prijs, `type`) VALUES (?, ?, ?, ?)";
-        $pdo->prepare($sql)->execute([$naam, $beschrijving, $prijs, $categorie]);
+        $naam = trim($_POST['naam']);
+        $beschrijving = $_POST['beschrijving'] ?? '';
+        $prijs = trim($_POST['prijs'] ?? '');
+        $prijs = $prijs === '' ? null : (float) $prijs;
+        $categorie = $_POST['categorie'] ?? '';
+        $foto = trim($_POST['foto'] ?? '');
+
+        $pdo->prepare("INSERT INTO Gerechten (naam, beschrijving, prijs, `type`, foto) VALUES (?, ?, ?, ?, ?)"
+        )->execute([$naam, $beschrijving, $prijs, $categorie, $foto]);
         $bericht = "✓ Gerecht toegevoegd!";
     } catch (PDOException $e) {
         $error = "Fout bij toevoegen: " . $e->getMessage();
     }
 }
 
-// Gerecht verwijderen
+// Verwerk verwijderverzoek voor een gerecht op basis van id
 if (isset($_GET['verwijder']) && is_numeric($_GET['verwijder'])) {
-    $id = (int) $_GET['verwijder'];
     try {
-        $sql = "DELETE FROM Gerechten WHERE id = ?";
-        $pdo->prepare($sql)->execute([$id]);
+        $pdo->prepare("DELETE FROM Gerechten WHERE id = ?")->execute([(int) $_GET['verwijder']]);
         $bericht = "✓ Gerecht verwijderd!";
     } catch (PDOException $e) {
         $error = "Fout bij verwijderen: " . $e->getMessage();
     }
 }
 
-// Zoeken
+// Zoekfunctie: filter de gerechtenlijst op basis van de naam
 $zoek = $_GET['zoek'] ?? '';
+$params = $zoek ? ["%$zoek%"] : [];
 $sql = "SELECT * FROM Gerechten";
-$params = [];
 
 if ($zoek) {
-    $sql .= " WHERE naam LIKE ? OR beschrijving LIKE ? OR `type` LIKE ?";
-    $params = ["%$zoek%", "%$zoek%", "%$zoek%"]; 
+    $sql .= " WHERE naam LIKE ?";
 }
 
 $stmt = $pdo->prepare($sql);
@@ -124,6 +124,9 @@ $gerechten = $stmt->fetchAll();
 
                 <label>Categorie</label>
                 <input type="text" name="categorie">
+
+                <label>Foto (optioneel)</label>
+                <input type="text" name="foto" placeholder="URL of bestandsnaam">
 
                 <button type="submit">Toevoegen</button>
             </form>

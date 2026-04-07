@@ -2,18 +2,12 @@
 include_once("database.php");
 
 $zoek = $_GET['zoek'] ?? '';
-$sql = "SELECT * FROM Gerechten";
-$params = [];
+$params = $zoek ? ["%$zoek%", "%$zoek%", "%$zoek%"] : [];
+$sql = "SELECT * FROM Gerechten" . ($zoek ? " WHERE naam LIKE ? OR beschrijving LIKE ? OR `type` LIKE ?" : "");
 
-if ($zoek) {
-    $sql .= " WHERE naam LIKE ? OR beschrijving LIKE ? OR `type` LIKE ?";
-    $params = ["%$zoek%", "%$zoek%", "%$zoek%"]; 
-}
-
-$statement = $pdo->prepare($sql);
-$statement->execute($params);
-
-$gerechten = $statement->fetchAll();
+$stmt = $pdo->prepare($sql);
+$stmt->execute($params);
+$gerechten = $stmt->fetchAll();
 
 echo "<pre>";
 print_r($gerechten);
