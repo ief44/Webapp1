@@ -1,3 +1,24 @@
+<?php include_once("database.php");
+
+// Zoeken
+$zoek = $_GET['zoek'] ?? '';
+$sql = "SELECT * FROM Gerechten";
+$params = [];
+
+if ($zoek) {
+    $sql .= " WHERE naam LIKE ? OR beschrijving LIKE ? OR type LIKE ?";
+    $params = ["%$zoek%", "%$zoek%", "%$zoek%"];
+}
+
+$sql .= " LIMIT 4";
+$stmt = $pdo->prepare($sql);
+if ($params) {
+    $stmt->execute($params);
+} else {
+    $stmt->execute();
+}
+$gerechten = $stmt->fetchAll();
+?>
 <!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -9,18 +30,18 @@
 </head>
 <body>
 
-<!-- Checkbox voor hamburger menu (BUITEN header zodat CSS sibling ~ werkt) -->
 <input type="checkbox" id="nav-toggle">
 
 <header>
   <div class="header-inner">
-    <a class="logo" href="index.html">Eethuis <span>IEF</span></a>
+    <a class="logo" href="index.php">Eethuis <span>IEF</span></a>
 
-    <form class="search-form" action="menukaart.html" method="get">
-      <input type="text" name="zoek" placeholder="Zoek gerecht of drankje…">
+    <form class="search-form" action="index.php" method="get">
+      <input type="text" name="zoek" placeholder="Zoek gerecht…" value="<?= htmlspecialchars($zoek) ?>">
+      <button type="submit">Zoeken</button>
     </form>
 
-    <a class="btn-login" href="#login-modal">🔐 Inloggen</a>
+    <a class="btn-login" href="login.php">🔐 Inloggen</a>
 
     <label class="hamburger-label" for="nav-toggle">
       <span></span><span></span><span></span>
@@ -37,33 +58,6 @@
     <li><a href="admin.php">Admin</a></li>
   </ul>
 </nav>
-
-<!-- INLOG MODAL (CSS :target) -->
-<div class="modal-overlay" id="login-modal">
-  <div class="modal">
-    <div class="modal-header">
-      <h2>Inloggen</h2>
-      <a class="modal-close" href="#">✕</a>
-    </div>
-    <form action="#" method="post">
-      <div class="form-group">
-        <label for="email">E-mailadres</label>
-        <input type="email" id="email" name="email" placeholder="jouw@email.nl" required>
-      </div>
-      <div class="form-group">
-        <label for="wachtwoord">Wachtwoord</label>
-        <input type="password" id="wachtwoord" name="wachtwoord" placeholder="••••••••" required><max-length="10">
-      </div>
-      <button type="submit" class="btn-submit">Inloggen</button>
-      <p style="text-align:center;margin-top:1rem;font-size:0.85rem;color:var(--muted);">
-        Geen account? <a href="#" style="color:var(--blue);font-weight:700;">Registreer hier</a>
-      </p>
-    </form>
-  </div>
-</div>
-<?php
-
-?>
 <!-- HERO -->
 <section class="hero">
   <h1>Welkom bij<br>Eethuis <em>IEF</em></h1>

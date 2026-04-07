@@ -1,3 +1,19 @@
+<?php include_once("database.php");
+
+// Zoeken
+$zoek = $_GET['zoek'] ?? '';
+$sql = "SELECT * FROM Gerechten";
+$params = [];
+
+if ($zoek) {
+    $sql .= " WHERE naam LIKE ? OR beschrijving LIKE ? OR type LIKE ?";
+    $params = ["%$zoek%", "%$zoek%", "%$zoek%"];
+}
+
+$stmt = $pdo->prepare($sql);
+$stmt->execute($params);
+$gerechten = $stmt->fetchAll();
+?>
 <!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -5,199 +21,64 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Menukaart – Eethuis IEF</title>
   <link rel="stylesheet" href="style.css">
-  <link rel="shortcut icon" href="Ief eethuis.png" type="image/x-icon">
 </head>
 <body>
 
-<input type="checkbox" id="nav-toggle">
-
 <header>
   <div class="header-inner">
-    <a class="logo" href="index.html">Eethuis <span>IEF</span></a>
-
-    <form class="search-form" action="menu.html" method="get">
-      <input type="text" name="zoek" placeholder="Zoek gerecht of drankje…">
+    <a class="logo" href="index.php">Eethuis <span>IEF</span></a>
+    <form class="search-form" action="menu.php" method="get">
+      <input type="text" name="zoek" placeholder="Zoeken…" value="<?= htmlspecialchars($zoek) ?>">
+      <button type="submit">Zoeken</button>
     </form>
-
-    <a class="btn-login" href="#login-modal">🔐 Inloggen</a>
-
-    <label class="hamburger-label" for="nav-toggle">
-      <span></span><span></span><span></span>
-    </label>
+    <a class="btn-login" href="login.php">🔐 Inloggen</a>
   </div>
 </header>
 
 <nav>
   <ul class="nav-links">
-     <li><a href="index.php" class="active">Home</a></li>
-    <li><a href="menu.php">Menukaart</a></li>
+    <li><a href="index.php">Home</a></li>
+    <li><a href="menu.php" class="active">Menukaart</a></li>
     <li><a href="order.php">Bestellen</a></li>
     <li><a href="contact.php">Contact</a></li>
     <li><a href="admin.php">Admin</a></li>
   </ul>
 </nav>
 
-<!-- INLOG MODAL -->
-<div class="modal-overlay" id="login-modal">
-  <div class="modal">
-    <div class="modal-header">
-      <h2>Inloggen</h2>
-      <a class="modal-close" href="#">✕</a>
+<div class="section">
+  <h2 class="section-title">Menukaart</h2>
+  <p><?= count($gerechten) ?> gerechten</p>
+
+  <?php if ($gerechten): ?>
+    <div class="menu-grid">
+      <?php foreach ($gerechten as $g): ?>
+        <div class="menu-card">
+          <div class="card-body">
+            <h3><?= htmlspecialchars($g['naam']) ?></h3>
+            <?php if ($g['beschrijving']): ?>
+              <p><?= htmlspecialchars($g['beschrijving']) ?></p>
+            <?php endif; ?>
+          </div>
+          <div class="card-footer">
+            <span class="price">€ <?= $g['prijs'] ? number_format($g['prijs'], 2, ',', '.') : '-' ?></span>
+            <?php if ($g['type']): ?>
+              <span style="font-size: 12px; color: #666;"><?= htmlspecialchars($g['type']) ?></span>
+            <?php endif; ?>
+          </div>
+        </div>
+      <?php endforeach; ?>
     </div>
-    <form action="#" method="post">
-      <div class="form-group">
-        <label for="email">E-mailadres</label>
-        <input type="email" id="email" name="email" placeholder="jouw@email.nl" required>
-      </div>
-      <div class="form-group">
-        <label for="wachtwoord">Wachtwoord</label>
-        <input type="password" id="wachtwoord" name="wachtwoord" placeholder="••••••••" required>
-      </div>
-      <button type="submit" class="btn-submit">Inloggen</button>
-      <p style="text-align:center;margin-top:1rem;font-size:0.85rem;color:var(--muted);">
-        Geen account? <a href="#" style="color:var(--blue);font-weight:700;">Registreer hier</a>
-      </p>
-    </form>
-  </div>
+  <?php else: ?>
+    <p>Geen gerechten gevonden.</p>
+  <?php endif; ?>
 </div>
 
-<!-- PAGINA INHOUD -->
-<div class="section">
-  <h2 class="section-title">Onze <span>Menukaart</span></h2>
-  <p class="section-subtitle">Verse visgerechten en verfrissende dranken — alles op één pagina</p>
+<footer>
+  <p>&copy; 2024 Eethuis IEF</p>
+</footer>
 
-  <!-- VISGERECHTEN -->
-  <h3 class="menu-section-heading">🐟 Visgerechten</h3>
-  <div class="menu-grid">
-
-    <div class="menu-card">
-      <div class="card-thumb">🐟</div>
-      <div class="card-body">
-        <span class="tag">Visgerecht</span>
-        <h3>Gebakken Scholfilet</h3>
-        <p>Klassiek gebakken met citroenboter en peterselie</p>
-      </div>
-      <div class="card-footer">
-        <span class="price">€ 16,50</span>
-        <a href="order.html" class="btn-add">Bestellen →</a>
-      </div>
-    </div>
-<!--Einde Visgerechten-->
-    <div class="menu-card">
-      <div class="card-thumb">🦐</div>
-      <div class="card-body">
-        <span class="tag">Visgerecht</span>
-        <h3>Garnalencocktail</h3>
-        <p>Verse Noordzeegarnalen met roze dressing</p>
-      </div>
-      <div class="card-footer">
-        <span class="price">€ 14,00</span>
-        <a href="order.html" class="btn-add">Bestellen →</a>
-      </div>
-    </div>
-
-    <div class="menu-card">
-      <div class="card-thumb">🐠</div>
-      <div class="card-body">
-        <span class="tag">Visgerecht</span>
-        <h3>Gerookte Zalm</h3>
-        <p>Huisgerookt, met kappertjes en rode ui</p>
-      </div>
-      <div class="card-footer">
-        <span class="price">€ 18,50</span>
-        <a href="order.html" class="btn-add">Bestellen →</a>
-      </div>
-    </div>
-
-    <div class="menu-card">
-      <div class="card-thumb">🦪</div>
-      <div class="card-body">
-        <span class="tag">Visgerecht</span>
-        <h3>Mosselen Marinière</h3>
-        <p>Zeeuwse mosselen in witte wijn en room</p>
-      </div>
-      <div class="card-footer">
-        <span class="price">€ 19,00</span>
-        <a href="order.html" class="btn-add">Bestellen →</a>
-      </div>
-    </div>
-
-    <div class="menu-card">
-      <div class="card-thumb">🍣</div>
-      <div class="card-body">
-        <span class="tag">Visgerecht</span>
-        <h3>Tonijntartaar</h3>
-        <p>Rauwe tonijn, avocado en soja-sesamdressing</p>
-      </div>
-      <div class="card-footer">
-        <span class="price">€ 21,00</span>
-        <a href="order.html" class="btn-add">Bestellen →</a>
-      </div>
-    </div>
-
-    <div class="menu-card">
-      <div class="card-thumb">🐡</div>
-      <div class="card-body">
-        <span class="tag">Visgerecht</span>
-        <h3>Gegrilde Zeebaars</h3>
-        <p>Mediterraan gekruid met olijfolie en citroen</p>
-      </div>
-      <div class="card-footer">
-        <span class="price">€ 23,50</span>
-        <a href="order.html" class="btn-add">Bestellen →</a>
-      </div>
-    </div>
-
-    <div class="menu-card">
-      <div class="card-thumb">🍲</div>
-      <div class="card-body">
-        <span class="tag">Visgerecht</span>
-        <h3>Vissoep IEF</h3>
-        <p>Rijke bouillabaisse met vers huisbrood</p>
-      </div>
-      <div class="card-footer">
-        <span class="price">€ 12,00</span>
-        <a href="order.html" class="btn-add">Bestellen →</a>
-      </div>
-    </div>
-
-    <div class="menu-card">
-      <div class="card-thumb">🦑</div>
-      <div class="card-body">
-        <span class="tag">Visgerecht</span>
-        <h3>Inktvis Gegrild</h3>
-        <p>Spaanse stijl met knoflook en peterselie</p>
-      </div>
-      <div class="card-footer">
-        <span class="price">€ 17,50</span>
-        <a href="order.html" class="btn-add">Bestellen →</a>
-      </div>
-    </div>
-
-    <div class="menu-card">
-      <div class="card-thumb">🍤</div>
-      <div class="card-body">
-        <span class="tag">Visgerecht</span>
-        <h3>Kabeljauw in Tempura</h3>
-        <p>Knapperig gefrituurde kabeljauw met tartaarsaus</p>
-      </div>
-      <div class="card-footer">
-        <span class="price">€ 15,50</span>
-        <a href="order.html" class="btn-add">Bestellen →</a>
-      </div>
-    </div>
-
-    <div class="menu-card">
-      <div class="card-thumb">🦞</div>
-      <div class="card-body">
-        <span class="tag">Visgerecht</span>
-        <h3>Kreeft Thermidor</h3>
-        <p>Halve kreeft met romige kaassaus, au gratin</p>
-      </div>
-      <div class="card-footer">
-        <span class="price">€ 38,00</span>
-        <a href="order.html" class="btn-add">Bestellen →</a>
-      </div>
+</body>
+</html>
     </div>
 
   </div>
@@ -215,7 +96,7 @@
       </div>
       <div class="card-footer">
         <span class="price">€ 5,50</span>
-        <a href="order.html" class="btn-add">Bestellen →</a>
+        <a href="order.php" class="btn-add">Bestellen →</a>
       </div>
     </div>
 
@@ -228,7 +109,7 @@
       </div>
       <div class="card-footer">
         <span class="price">€ 3,50</span>
-        <a href="order.html" class="btn-add">Bestellen →</a>
+        <a href="order.php" class="btn-add">Bestellen →</a>
       </div>
     </div>
 
@@ -241,7 +122,7 @@
       </div>
       <div class="card-footer">
         <span class="price">€ 8,50</span>
-        <a href="order.html" class="btn-add">Bestellen →</a>
+        <a href="order.php" class="btn-add">Bestellen →</a>
       </div>
     </div>
 <!-- Einde Dranken-->
@@ -254,7 +135,7 @@
       </div>
       <div class="card-footer">
         <span class="price">€ 2,50</span>
-        <a href="order.html" class="btn-add">Bestellen →</a>
+        <a href="order.php" class="btn-add">Bestellen →</a>
       </div>
     </div>
 
@@ -267,7 +148,7 @@
       </div>
       <div class="card-footer">
         <span class="price">€ 4,00</span>
-        <a href="order.html" class="btn-add">Bestellen →</a>
+        <a href="order.php" class="btn-add">Bestellen →</a>
       </div>
     </div>
 

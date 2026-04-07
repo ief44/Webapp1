@@ -1,3 +1,19 @@
+<?php include_once("database.php");
+
+// Zoeken
+$zoek = $_GET['zoek'] ?? '';
+$sql = "SELECT * FROM Gerechten";
+$params = [];
+
+if ($zoek) {
+    $sql .= " WHERE naam LIKE ? OR beschrijving LIKE ? OR type LIKE ?";
+    $params = ["%$zoek%", "%$zoek%", "%$zoek%"];
+}
+
+$stmt = $pdo->prepare($sql);
+$stmt->execute($params);
+$gerechten = $stmt->fetchAll();
+?>
 <!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -10,31 +26,31 @@
 <body>
 
 <input type="checkbox" id="nav-toggle">
-<!--HEADER-->
+
 <header>
   <div class="header-inner">
-    <a class="logo" href="index.html">Eethuis <span>IEF</span></a>
+    <a class="logo" href="index.php">Eethuis <span>IEF</span></a>
 
-    <form class="search-form" action="menu.html" method="get">
-      <input type="text" name="zoek" placeholder="Zoek gerecht of drankje…">
+    <form class="search-form" action="contact.php" method="get">
+      <input type="text" name="zoek" placeholder="Zoek gerecht…" value="<?= htmlspecialchars($zoek) ?>">
+      <button type="submit">Zoeken</button>
     </form>
 
-    <a class="btn-login" href="#login-modal">🔐 Inloggen</a>
+    <a class="btn-login" href="login.php">🔐 Inloggen</a>
 
     <label class="hamburger-label" for="nav-toggle">
       <span></span><span></span><span></span>
     </label>
   </div>
 </header>
-<!--Einde HEADER-->
-<!--Navigatie links bovenin de pagina die verwijzen naar andere pagina's -->
+
 <nav>
   <ul class="nav-links">
-    <li><a href="index.php" class="active">Home</a></li>
+    <li><a href="index.php">Home</a></li>
     <li><a href="menu.php">Menukaart</a></li>
     <li><a href="order.php">Bestellen</a></li>
-    <li><a href="contact.php">Contact</a></li>
-    <li><a href="login.php">Admin</a></li>
+    <li><a href="contact.php" class="active">Contact</a></li>
+    <li><a href="admin.php">Admin</a></li>
   </ul>
 </nav>
 <!--Einde navigatie-->

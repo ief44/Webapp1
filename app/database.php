@@ -22,4 +22,28 @@ try {
 } catch (PDOException $e) {
     die("Databasefout: " . $e->getMessage());
 }
+
+// Database initialisatie
+try {
+    $pdo->exec("CREATE TABLE IF NOT EXISTS Admins (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        username VARCHAR(255) NOT NULL UNIQUE,
+        password_hash VARCHAR(255) NOT NULL
+    )");
+
+    $pdo->exec("CREATE TABLE IF NOT EXISTS Gerechten (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        naam VARCHAR(255) NOT NULL,
+        beschrijving TEXT,
+        prijs DECIMAL(10,2),
+        `type` VARCHAR(255)
+    )");
+
+    // Voeg admin toe als deze niet bestaat
+    $stmt = $pdo->prepare("INSERT IGNORE INTO Admins (username, password_hash) VALUES (?, ?)");
+    $stmt->execute(['admin', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi']);
+} catch (PDOException $e) {
+    // Log de fout maar stop niet
+    error_log("Database initialisatie fout: " . $e->getMessage());
+}
 ?>
