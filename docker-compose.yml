@@ -35,7 +35,8 @@ services:
       MYSQL_PASSWORD: password
     volumes:
       - db_data:/var/lib/mysql
-    # ports blijven default  
+    ports:
+      - "3306:3306"  
 
   phpmyadmin:
     image: phpmyadmin
