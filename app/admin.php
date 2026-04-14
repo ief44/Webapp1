@@ -82,6 +82,9 @@ $gerechten = $stmt->fetchAll();
         input, textarea, select { width: 100%; padding: 8px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 3px; font-family: Arial; }
         button { background: #333; color: white; padding: 10px 20px; border: none; border-radius: 3px; cursor: pointer; width: 100%; }
         button:hover { background: #555; }
+        .input-edit { width: 100%; border: 1px solid #ccc; border-radius: 3px; padding: 8px; font-family: Arial, sans-serif; font-size: 0.95rem; }
+        .input-edit:focus { outline: 2px solid #1a73e8; border-color: #1a73e8; }
+        .edit-note { margin-bottom: 15px; color: #555; font-size: 0.95rem; }
         table { width: 100%; border-collapse: collapse; margin-top: 10px; }
         th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
         th { background: #f5f5f5; font-weight: bold; }
@@ -131,37 +134,41 @@ $gerechten = $stmt->fetchAll();
                 <button type="submit">Toevoegen</button>
             </form>
         </div>
-
         <!-- OVERZICHT -->
         <div class="card">
             <h2>Alle Gerechten (<?= count($gerechten) ?>)</h2>
-            
+            <p class="edit-note">Klik in de velden om de naam, categorie of prijs van het gerecht aan te passen.</p>
             <form method="GET" class="search-bar">
                 <input type="text" name="zoek" placeholder="Zoeken..." value="<?= htmlspecialchars($zoek) ?>">
                 <button type="submit">Zoeken</button>
                 <a href="admin.php">Reset</a>
             </form>
 
-            <?php if ($gerechten): ?>
+            <?php if ($gerechten) { ?>
                 <table>
                     <tr>
                         <th>Naam</th>
                         <th>Categorie</th>
                         <th>Prijs</th>
-                        <th></th>
+                        <th>Acties</th>
                     </tr>
-                    <?php foreach ($gerechten as $g): ?>
+                    <?php foreach ($gerechten as $g){ ?>
                         <tr>
                             <td><?= htmlspecialchars($g['naam']) ?></td>
                             <td><?= htmlspecialchars($g['type'] ?? '-') ?></td>
                             <td>€ <?= number_format($g['prijs'] ?? 0, 2, ',', '.') ?></td>
-                            <td><a href="?verwijder=<?= $g['id'] ?>" class="del" onclick="return confirm('Verwijderen?')">Del</a></td>
+                            <td class="actions-cell">
+                                <a href ="gerechtenaanpassen.php?id=<?=$g['id']?>">
+                                  <button> bewerken </button>
+                                </a>  
+                                <a href="?verwijder=<?= $g['id'] ?>" class="del" onclick="return confirm('Verwijderen?')">Del</a>
+                            </td>
                         </tr>
-                    <?php endforeach; ?>
+                    <?php }; ?>
                 </table>
-            <?php else: ?>
+            <?php } else { ?>
                 <p>Geen gerechten gevonden.</p>
-            <?php endif; ?>
+            <?php } ?>
         </div>
     </div>
 </div>
